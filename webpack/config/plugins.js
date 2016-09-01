@@ -20,6 +20,7 @@ module.exports = [
     new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
 
     new webpack.ProvidePlugin({
+        m: "mithril",
         /** defineProperty */ defineProperty: 'imports?this=>global!exports?global.Object.defineProperty!definePropertyPolyfill',
         /** Function.bind */  bind: 'imports?this=>global!exports?global.Function.bind!bindPolyfill',
         /** Object.assign */  assign: 'imports?this=>global!exports?global.Object.assign!assignPolyfill',

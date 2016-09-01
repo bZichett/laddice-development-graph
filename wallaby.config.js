@@ -4,7 +4,7 @@ var wallabyWebpack = require('wallaby-webpack');
 
 global.__TESTING__ = true
 
-var devConfig = require('./webpack/webpack.config.js')({__TESTING__: true})
+var devConfig = require('./webpack/webpack.config.dev.js')
 var paths = require('./webpack/paths')
 
 var emptyModule = path.resolve(paths.vendor, 'empty-module.js')
@@ -15,8 +15,8 @@ module.exports = function (wallaby) {
 
 	/** Webpack overrides */
 	//devConfig.devtool = 'cheap-module-source-map'
-	//devConfig.devtool = 'hidden-source-map'
-	devConfig.devtool = 'source-map'
+	//devConfig.devtool = 'source-map'
+	devConfig.devtool = 'eval'
 	//delete devConfig.devtool
 
 	var src =     path.join(wallaby.projectCacheDir, 'src')
@@ -48,20 +48,17 @@ module.exports = function (wallaby) {
 	//}))
 
 	// Delete babel-loader and sass-loader
-	//devConfig.module.loaders = devConfig.module.loaders.filter(function(l){
-	//	return  (l['loader'] !== 'babel-loader'
-	//		  || l['name'] !== 'sass-loader')
-	//});
-
-	devConfig.module.loaders.shift() // remove scss-loader
-	devConfig.module.loaders[0].query.cacheDirectory = false
+	devConfig.module.loaders = devConfig.module.loaders.filter(function(l){
+		return  (l['loader'] !== 'babel-loader'
+			  || l['name'] !== 'sass-loader')
+	});
 
 	var wallabyPostprocessor = wallabyWebpack(devConfig);
 
 	var babelCompiler = wallaby.compilers.babel({
 		babel: require('babel-core'),
-		babelrc: path.resolve('.babelrc'),
-		//plugins: ['rewire']
+		babelrc: false,
+		extends: path.resolve('./config/babel.dev.js'),
 	})
 
 	return {
@@ -79,8 +76,8 @@ module.exports = function (wallaby) {
 			{pattern: 'test/fixture.js', load: false},
 
 		/** VENDOR */
-			//{pattern: 'node_modules/mithril/mithril.min.js', instrument: false},
-			//{pattern: 'node_modules/d3/d3.min.js', instrument: false},
+			{pattern: 'node_modules/mithril/mithril.min.js', instrument: false},
+			{pattern: 'node_modules/d3/d3.min.js', instrument: false},
 			//{pattern: 'node_modules/bootstrap/js/affix.js', instrument: false},
 			//{pattern: 'node_modules/bootstrap/js/dropdown.js', instrument: false},
 			//{pattern: 'node_modules/bootstrap/js/modal.js', instrument: false},
@@ -136,7 +133,7 @@ module.exports = function (wallaby) {
 			var mocha = wallaby.testFramework;
 			mocha.ui('bdd');
 			window.HTTP_HOST  = 'http://'
-			window.HOSTNAME   = 'localhost:8000/'
+			window.HOSTNAME   = 'localhost:3000/'
 			window.__moduleBundler.loadTests();
 		}
 	}

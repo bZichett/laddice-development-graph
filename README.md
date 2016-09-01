@@ -16,6 +16,12 @@
 
 ## Explanation & Method
 
+## TODO
+
+Add colors  
+Detail View for selected node
+
+
 ## Setup
 
     npm install

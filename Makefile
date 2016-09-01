@@ -11,7 +11,8 @@ help_unsort:
 
 #  --hot --inline
 dev:
-	node webpack/devServer.js --env.devServer
+	# node webpack/devServer.js --env.devServer
+	node scripts/start.js
 
 release_prod:
 	node webpack/release.js --production --notes=${notes} --flag=production --type=${type}

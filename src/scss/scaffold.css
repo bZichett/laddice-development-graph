@@ -1,0 +1,22 @@
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.Container{
+
+}
+
+.Container-right{
+  width: 30%;
+
+}
+
+.Container-left{
+  width: 70%;
+}

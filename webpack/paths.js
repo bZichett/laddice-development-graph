@@ -46,5 +46,5 @@ module.exports = {
 
     node_modules: node_modules_dir,
 
-    MODULE_DIRS: [fonts_dir]
+    MODULE_DIRS: [node_modules_dir, SRC_DIR, fonts_dir]
 };

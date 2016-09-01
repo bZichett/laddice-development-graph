@@ -10,6 +10,6 @@ var HOT_CLIENT = 'webpack-hot-middleware/client'
 module.exports = {
     //HOT,
     //DEV_SERVER_HOT,
-    vendor: [],
-    web: webEntry,
+    vendor: ['mithril'],
+    web: ['babel-polyfill', webEntry]
 }
