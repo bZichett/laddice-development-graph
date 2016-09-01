@@ -36,7 +36,9 @@ module.exports = function (env) {
             chunkFilename: "[name]-chunk.js",
         },
         plugins: plugins,
-        sassLoader: {includePaths: paths.scss.all},
+        sassLoader: {
+            //includePaths: paths.scss.all
+        },
         module: {
             loaders: loaders
         },

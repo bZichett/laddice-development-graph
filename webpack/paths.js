@@ -6,8 +6,6 @@ var STATIC = path.resolve(ROOT, 'static')
 var BUILD = path.resolve(ROOT, 'build')
 
 var SRC_DIR = path.resolve(ROOT, 'src')
-var LIB_DIR = path.resolve(SRC_DIR, 'lib')
-var APP_DIR = path.resolve(SRC_DIR, 'app')
 var IMG = path.resolve(ROOT, 'img')
 
 /** TESTS */
@@ -17,11 +15,9 @@ var UNIT_TEST_DIR = path.resolve(ROOT, 'test/unit')
 var node_modules_dir = path.resolve(ROOT, 'node_modules')
 
 /** ASSETS */
+var vendor_dir = path.resolve(ROOT, 'vendor')
 var fonts_dir = path.resolve(STATIC, 'fonts')
 
-/** SCSS */
-var scss_global = path.resolve(SRC_DIR, 'scss')
-var scss_animations = path.resolve(scss_global, 'animations')
 
 module.exports = {
 
@@ -41,22 +37,14 @@ module.exports = {
 
     src: SRC_DIR,
     img: IMG,
-    lib: LIB_DIR,
-    app: APP_DIR,
     fonts: fonts_dir,
+    vendor: vendor_dir,
     static: STATIC,
     test: {
         unit: UNIT_TEST_DIR
     },
-    scss: {
-        global: scss_global
-    },
+
     node_modules: node_modules_dir,
 
-    MODULE_DIRS: [
-        fonts_dir,
-        scss_global,
-        scss_animations,
-        node_modules_dir
-    ]
-}
+    MODULE_DIRS: [fonts_dir]
+};

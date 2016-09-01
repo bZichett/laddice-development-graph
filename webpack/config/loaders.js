@@ -7,7 +7,7 @@ function q(loader, query) {
 }
 
 var cssLoaderQuery = {
-    includePaths: paths.scss.all,
+    //includePaths: paths.scss.all,
     indentedSyntax: __BUILD__ ? false : true,
     sourceMap: __BUILD__ ? false : true,
 };

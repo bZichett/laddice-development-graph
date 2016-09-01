@@ -10,11 +10,11 @@ module.exports = {
         //_: require('lodash/fp'),
         //m: require('mithril'),
         //moment: require('moment'),
+        d3: require('d3'),
         fonts: paths.fonts,
-        lib: paths.lib,
         static: paths.static,
         img: paths.img,
-        scss: paths.scss.global,
+        //scss: paths.scss.global,
         vendor: paths.vendor,
     },
 
