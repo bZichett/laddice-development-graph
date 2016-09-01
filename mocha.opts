@@ -1,0 +1,4 @@
+--require ./test/fixture.js
+--reporter spec
+--ui bdd
+--timeout 2000
