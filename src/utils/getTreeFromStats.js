@@ -1,4 +1,5 @@
 export async function getDefaultStats() {
+	//const result = await fetch('static/stats/stats_list.json');
 	const result = await fetch('static/stats/stats_all.json');
 	return await result.json();
 }

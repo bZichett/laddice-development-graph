@@ -9,37 +9,37 @@ help:
 help_unsort:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-#  --hot --inline
+lint: eslint src
+
+preversion:
+	npm run lint
+
+version:
+	npm run stats && npm run build && git add -A .
+
+postversion:
+	git push --tags
+
+stats:
+	NODE_ENV=production webpack --profile --json --config config/webpack.config.prod.js > static/stats.json
+
+gh:
+	git subtree push --prefix build origin gh-pages
+
 dev:
-	# node webpack/devServer.js --env.devServer
-	node scripts/start.js
+	node ./scripts/start.js
 
-release_prod:
-	node webpack/release.js --production --notes=${notes} --flag=production --type=${type}
+build:
+	node ./scripts/build.js
 
-release_pre:
-	node webpack/release.js --production --notes=${notes} --flag=development --type=${type}
+prod:
+	http-server -a localhost -p 8000
 
-release_d:
-	node webpack/release.js --development
+server:
+	nodemon server/index.js --exec babel-node
 
-webpack_p:
-	./node_modules/webpack/bin/webpack.js -p --env.production --config webpack/webpack.config.js --progress
-
-webpack_d:
-	./node_modules/webpack/bin/webpack.js --env.staging --config webpack/webpack.config.js --progress
-
-clean_build:
-	node webpack/utils/clean.js
-
-delete_version:
-	node src/webpack/utils/deleteVersion.js
-
-lint_spa:
-	./node_modules/eslint/bin/eslint.js -c .eslintrc $(SPA_SOURCES)
-
-lint_blog:
-	./node_modules/eslint/bin/eslint.js $(BLOG_SOURCES)
+test:
+	npm run compile && ./node_modules/.bin/mocha dist/**/*.js --compilers js:babel-core/register --opts ./mocha.opts --recursive --reporter spec
 
 selenium:
 	selenium-standalone start

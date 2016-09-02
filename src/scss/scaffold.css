@@ -7,16 +7,30 @@ body {
   margin: 0;
   overflow: hidden;
 }
+a {
+  color: #5a57ff;
+  cursor: pointer;
+}
 
+a:hover{
+  color: #3841ff;
+  text-decoration: underline;
+}
 .Container{
-
+  height: 100vh;
+  width: 100vw;
+  display: flex;
 }
 
 .Container-right{
-  width: 30%;
-
+  width: 20%;
+  display: inherit;
+  margin-top: 55px;
+  padding: 12px;
+  overflow-y: auto;
+  box-shadow: -8px -6px 7px #bfbfbf;
 }
 
 .Container-left{
-  width: 70%;
+  width: 80%;
 }

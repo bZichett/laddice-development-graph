@@ -9,18 +9,6 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint src",
-    "preversion": "npm run lint",
-    "version": "npm run stats && npm run build && git add -A .",
-    "postversion": "git push --tags",
-    "stats": "NODE_ENV=production webpack --profile --json --config config/webpack.config.prod.js > static/stats.json",
-    "gh": "git subtree push --prefix build origin gh-pages",
-    "start": "node ./scripts/start.js",
-    "build": "node ./scripts/build.js",
-    "prod": "http-server -a localhost -p 8000",
-    "dev": "http-server -a localhost -p 8000",
-    "server": "nodemon server/index.js --exec babel-node",
-    "test": "npm run compile && ./node_modules/.bin/mocha dist/**/*.js --compilers js:babel-core/register --opts ./mocha.opts --recursive --reporter spec"
   },
   "eslintConfig": {
     "extends": "./config/eslint.js"
@@ -55,6 +43,8 @@
     "case-sensitive-paths-webpack-plugin": "^1.1.3",
     "chai": "^3.5.0",
     "chalk": "^1.1.3",
+    "eslint-plugin-flowtype": "2.4.0",
+    "eslint-plugin-jsx-a11y": "2.0.1",
     "child_process": "^1.0.2",
     "codename-add-words": "0.0.4",
     "colors": "^1.1.2",

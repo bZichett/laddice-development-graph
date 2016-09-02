@@ -23,6 +23,11 @@ export default class Dashboard extends Component {
 				<header>
 					<div><h1>Webpack Graph</h1></div>
 					<nav>
+						{ this.focusNode ?
+						<span class="header-focus-node-info">
+							{ this.focusNode.shortLabel } &nbsp;
+							<a onclick={() => this.deselectNode()}>x</a>
+						</span> : "" }
 					</nav>
 				</header>
 
@@ -45,17 +50,23 @@ export default class Dashboard extends Component {
 
 			this.tree = getTreeFromStats(this.stats, this.directory)
 
+			app.data = {
+				nodes: this.tree.nodes,
+				edges: this.tree.edges,
+			}
+
 			this.directory.setHierarchyObjects()
 
 			this.graph = new WebpackGraph({
 				focusNode: this.focusNode,
-				setFocusNode: this.setFocusNode,
+				setFocusNode: this.setFocusNode.bind(this),
 				tree: this.tree
 			})
 
 			this.detail = new DetailView({
+				graph: this.graph,
 				focusNode: this.focusNode,
-				setFocusNode: this.setFocusNode
+				setFocusNode: this.setFocusNode.bind(this)
 			})
 
 			this.loading = false
@@ -65,8 +76,14 @@ export default class Dashboard extends Component {
 		})
 	}
 
+	deselectNode(){
+		this.focusNode = false
+		this.detail.show(false)
+		this.graph.drawing.deselect_item()
+	}
+
 	setFocusNode(d){
-		console.log(d)
 		this.focusNode = d
+		this.detail.show(d)
 	}
 }

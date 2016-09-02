@@ -35,6 +35,7 @@ export default class WebpackGraph extends Component {
 			<div>
 				{ !this.loading ? ForceDirectedGraph.component({
 					nodes: s.nodes,
+					context: this,
 					links: s.edges,
 					width: s.width,
 					height: s.height,
