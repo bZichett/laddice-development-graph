@@ -1,6 +1,4 @@
-var webpackConfig = require('./webpack.config')({
-	__PROD__: true
-});
+
 
 var url = require('url');
 var paths = require('../config/paths');
@@ -11,5 +9,10 @@ if (!publicPath.endsWith('/')) {
 	// Prevents incorrect paths in file-loader
 	publicPath += '/';
 }
+
+var webpackConfig = require('./webpack.config')({
+	__PROD__: true,
+	publicPath
+});
 
 module.exports = webpackConfig

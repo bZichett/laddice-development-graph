@@ -53,6 +53,10 @@ Chai (assertions - expect)
 
 	make test
 
+### Production Build
+	
+	make build
+
 ## Inspiration / Credits
    
 * Force-Directed Graph with Drag/Zoom/Pan/Center/Resize/Labels/Shapes/Filter/Highlight  

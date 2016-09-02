@@ -1,9 +1,9 @@
-import ForceDirectedGraph from './ForceDirectedGraph'
+import { ForceDirectedGraph } from './index'
 
 describe('ForceDirectedGraph', () => {
 
 	it('should...', () => {
-		console.log(main())
+		var graph = new ForceDirectedGraph()
 	})
 
 })

@@ -32,6 +32,7 @@ export default class DetailView extends Component {
 						<li>
 							{/* <span onclick={() => this.toggleConnectedVisibility(node)}>+</span> */}
 							<a onclick={() => this.show(node)}> { node.shortLabel } </a>
+							<span style="color: grey;"> { node.path } </span>
 						</li>
 					)
 				})}

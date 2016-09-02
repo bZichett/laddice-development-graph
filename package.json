@@ -1,6 +1,6 @@
 {
-  "name": "webpack-dependency-tree",
-  "version": "1.0.0",
+  "name": "laddice-development-graph",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "homepage_1": "www.projectample.com/development/dependency-graph/laddice/",
@@ -8,8 +8,7 @@
   "directories": {
     "test": "test"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "eslintConfig": {
     "extends": "./config/eslint.js"
   },
@@ -43,8 +42,6 @@
     "case-sensitive-paths-webpack-plugin": "^1.1.3",
     "chai": "^3.5.0",
     "chalk": "^1.1.3",
-    "eslint-plugin-flowtype": "2.4.0",
-    "eslint-plugin-jsx-a11y": "2.0.1",
     "child_process": "^1.0.2",
     "codename-add-words": "0.0.4",
     "colors": "^1.1.2",
@@ -54,7 +51,9 @@
     "enhanced-resolve": "^2.2.2",
     "eslint": "^3.4.0",
     "eslint-loader": "^1.5.0",
+    "eslint-plugin-flowtype": "2.4.0",
     "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "2.0.1",
     "extend": "^3.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.3",
     "file-loader": "^0.9.0",

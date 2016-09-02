@@ -1,54 +1,22 @@
 import Component from 'lib/Component'
-import './ForceDirectedGraph.css'
 
-import { forceSimulation, forceManyBody, forceLink, forceCenter, forceX, forceY } from "d3-force";
-import { selectAll, select } from "d3-selection";
+export default class ForceDirectedGraph {
 
-import { scaleLinear, scalePow } from "d3-scale";
-import { symbol, circle } from "d3-shape";
-import { zoom, zoomTransform } from "d3-zoom";
-import { interpolateZoom } from "d3-interpolate";
-
-window.d3 = {
-	selectAll,
-	select,
-	zoom,
-	zoomTransform,
-	event: () => require("d3-selection").event,
-	force: {
-		forceX,
-		forceY,
-		forceManyBody,
-		forceLink,
-		forceSimulation,
-		forceCenter
-	},
-	//event: {
-	//	keyCode
-	//},
-	shape: {
-		symbol,
-		circle,
-	},
-	interpolate: {
-		zoom: interpolateZoom
-	},
-	scale: {
-		linear: scaleLinear,
-		pow: scalePow
-	}
-}
-
-export default class ForceDirectedGraph extends Component {
-
-	init() {
+	constructor(element, data, options = {}) {
 		this.context = this.props.context
+		this.element = element
+
+		this.props = {
+			nodes: data.nodes,
+			links: data.links,
+			setFocusNode: options.setFocusNode
+		}
 	}
 
-	view() {
-		return (
-			<div class="ForceDirectedGraph"></div>
-		)
+	render() {
+		var div = document.createElement('div')
+		div.setAttribute('class', "ForceDirectedGraph")
+		this.element.appendChild(div)
 	}
 
 	config(isInit) {
@@ -85,13 +53,13 @@ export default class ForceDirectedGraph extends Component {
 
 		var default_node_color = "#ccc";
 		//var default_node_color = "rgb(3,190,100)";
-		var default_link_color = "#888";
+		var default_link_color = "#b2b2b2";
 		var nominal_base_node_size = 8;
 		var nominal_text_size = 10;
-		//var max_text_size = 24;
+		var max_text_size = 24;
 		var nominal_stroke = 1.5;
-		//var max_stroke = 4.5;
-		//var max_base_node_size = 36;
+		var max_stroke = 4.5;
+		var max_base_node_size = 36;
 		var min_zoom = 0.1;
 		var max_zoom = 7;
 
@@ -129,9 +97,9 @@ export default class ForceDirectedGraph extends Component {
 			.force("x", d3.force.forceX(0))
 			.force("charge",
 				d3.force.forceManyBody()
-					.strength(-400)
-					.distanceMin(100)
-					.distanceMax(2000)
+					.strength(-700)
+					.distanceMin(50)
+					.distanceMax(4000)
 			)
 			.force("center",
 				d3.force.forceCenter(width / 2, height / 2))
@@ -146,11 +114,37 @@ export default class ForceDirectedGraph extends Component {
 				else return default_link_color;
 			})
 
+
+		//var node_drag = d3.drag()
+		//	.on("start", dragstart)
+		//	.on("drag", dragmove)
+		//	.on("end", dragend);
+
+		function dragstart(d, i) {
+			force.stop() // stops the force auto positioning before you start dragging
+		}
+
+		function dragmove(d, i) {
+			var EVENT = d3.event()
+			d.px += EVENT.dx;
+			d.py += EVENT.dy;
+			d.x += EVENT.dx;
+			d.y += EVENT.dy;
+			tick(); // this is the key to make it work together with updating both px,py,x,y on d !
+		}
+
+		function dragend(d, i) {
+			d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+			tick();
+			force.restart();
+		}
+
 		var node = g.selectAll(".node")
 			.data(nodes)
 			.enter().append("g")
 			.attr("class", "node")
 		//.call(force.drag)
+		//.call(node_drag);
 
 		node.on("dblclick.zoom", function (d) {
 			d3.event().stopPropagation();
@@ -296,23 +290,29 @@ export default class ForceDirectedGraph extends Component {
 			}
 		}
 
-		zoom.on("zoom", function (event) {
+		zoom.on("zoom", function () {
 
 			const EVENT = d3.event()
+
+			const zoomScale = EVENT.transform.k
+			const inverseZoomScale = 1 / zoomScale
+			//
+			////console.log(zoomScale);
 			//
 			//var stroke = nominal_stroke;
-			////if (nominal_stroke * zoom.scaleExtent()[1] > max_stroke) stroke = max_stroke / zoom.scaleExtent()[1];
+			//if (nominal_stroke * zoomScale > max_stroke) stroke = max_stroke / zoomScale;
 			//link.style("stroke-width", stroke);
 			//circle.style("stroke-width", stroke);
 			//
 			//var base_radius = nominal_base_node_size;
-			////if (nominal_base_node_size * zoom.scaleExtent()[1] > max_base_node_size)
-			////	base_radius = max_base_node_size / zoom.scaleExtent()[1];
 			//
-			//circle.attr("d", d3.shape.symbol()
-			//	.size(function (d) {
-			//		return Math.PI * Math.pow(size(d.size) * base_radius / nominal_base_node_size || base_radius, 2);
-			//	}))
+			//if (nominal_base_node_size * zoomScale > max_base_node_size)
+			//	base_radius = max_base_node_size / zoomScale;
+			//
+			////circle.attr("d", d3.shape.symbol()
+			////	.size(function (d) {
+			////		return Math.PI * Math.pow(size(d.size) * base_radius / nominal_base_node_size || base_radius, 2);
+			////	}))
 			////.type(function (d) {
 			////	return d.type;
 			////}))
@@ -322,9 +322,9 @@ export default class ForceDirectedGraph extends Component {
 			//	return (size(d.size) * base_radius / nominal_base_node_size || base_radius);
 			//});
 			//
-			//var text_size = nominal_text_size;
-			////if (nominal_text_size * zoom.scaleExtent()[1] > max_text_size) text_size = max_text_size / zoom.scaleExtent()[1];
-			//text.style("font-size", text_size + "px");
+			var text_size = nominal_text_size;
+			//if (nominal_text_size * zoomScale > max_text_size) text_size = max_text_size / zoomScale;
+			text.style("font-size", inverseZoomScale * text_size + "px");
 
 			g.attr("transform", EVENT.transform);
 		});
@@ -335,8 +335,7 @@ export default class ForceDirectedGraph extends Component {
 		//window.focus();
 		d3.select(window).on("resize", resize).on("keydown", keydown.bind(this));
 
-		force.on("tick", function () {
-
+		function tick(){
 			node.attr("transform", function (d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
@@ -363,6 +362,10 @@ export default class ForceDirectedGraph extends Component {
 				.attr("cy", function (d) {
 					return d.y;
 				});
+		}
+
+		force.on("tick", function () {
+			tick()
 		});
 
 		function resize() {
@@ -489,6 +492,7 @@ export default class ForceDirectedGraph extends Component {
 		function isNumber(n) {
 			return !isNaN(parseFloat(n)) && isFinite(n);
 		}
+
 
 		return {
 			deselect_item: deselect_item.bind(this),

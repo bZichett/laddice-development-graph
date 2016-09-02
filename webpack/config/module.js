@@ -1,4 +1,5 @@
 var paths = require('../../config/paths')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 function q(loader, query) {
 	return loader + "?" + JSON.stringify(query);

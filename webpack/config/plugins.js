@@ -5,6 +5,7 @@ var paths = require('../../config/paths');
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /** Helpers */
 var colors = require('colors')
@@ -62,7 +63,7 @@ module.exports = [
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
-        new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
+        new ExtractTextPlugin('css/[name].[contenthash:8].css'),
         new CopyWebpackPlugin([{ from: 'static', to: 'static' }]),
         new webpack.HashedModuleIdsPlugin(),
         //new webpack.optimize.DedupePlugin(),

@@ -1,6 +1,6 @@
 import Component from 'lib/Component'
 
-import ForceDirectedGraph from 'views/ForceDirectedGraph'
+import { ForceDirectedGraph } from 'force-directed-graph-d3'
 
 export default class WebpackGraph extends Component {
 	init(){
