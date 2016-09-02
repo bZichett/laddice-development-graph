@@ -49,3 +49,6 @@ chromedriver:
 
 e2e_run:
 	wdio wdio.conf.js
+
+push:
+	git push -u laddice-development-graph dependency_tree:master
