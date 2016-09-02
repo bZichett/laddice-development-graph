@@ -1,15 +1,13 @@
-var paths = require('../paths')
+var paths = require('../../config/paths');
 var path = require('path');
 
-var webEntry = path.resolve(paths.src, 'app.js')
+module.exports = [
+	require.resolve(paths.config + '/polyfills'),
+	path.join(paths.appSrc, 'app')
+].concat(__PROD__ ? [
 
-var HOT = 'webpack-dev-server/client?http://localhost:8080'
-var DEV_SERVER_HOT = 'webpack/hot/only-dev-server'
-var HOT_CLIENT = 'webpack-hot-middleware/client'
-
-module.exports = {
-    //HOT,
-    //DEV_SERVER_HOT,
-    vendor: ['mithril'],
-    web: ['babel-polyfill', webEntry]
-}
+] : [])
+.concat(__DEV__ ? [
+	require.resolve('webpack-dev-server/client') + '?/',
+	require.resolve('webpack/hot/dev-server'),
+] : [])

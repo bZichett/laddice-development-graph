@@ -1,3 +1,9 @@
+Force-Directed Graph with Drag/Zoom/Pan/Center/Resize/Labels/Shapes/Filter/Highlight
+https://gist.github.com/eyaler/10586116
+
+Stellar Webpack
+https://github.com/alexkuz/stellar-webpack/blob/master/src/WebpackGraph.js
+
 # Table of Contents
 * [Problem Specification](#markdown-header-problem-specification)
 	* [Input](#markdown-header-input)

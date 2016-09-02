@@ -3,21 +3,33 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "homepage_1": "www.projectample.com/development/dependency-graph/laddice/",
+  "homepage": "/",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "lint": "eslint src",
+    "preversion": "npm run lint",
+    "version": "npm run stats && npm run build && git add -A .",
+    "postversion": "git push --tags",
+    "stats": "NODE_ENV=production webpack --profile --json --config config/webpack.config.prod.js > static/stats.json",
+    "gh": "git subtree push --prefix build origin gh-pages",
+    "start": "node ./scripts/start.js",
+    "build": "node ./scripts/build.js",
     "prod": "http-server -a localhost -p 8000",
     "dev": "http-server -a localhost -p 8000",
     "server": "nodemon server/index.js --exec babel-node",
-    "start": "npm run compile && node dist/index.js",
-    "test": "npm run compile && ./node_modules/.bin/mocha dist/**/*.js --compilers js:babel-core/register --opts ./mocha.opts --recursive --reporter spec",
-    "compile": "babel --presets es2015 src --out-dir dist"
+    "test": "npm run compile && ./node_modules/.bin/mocha dist/**/*.js --compilers js:babel-core/register --opts ./mocha.opts --recursive --reporter spec"
+  },
+  "eslintConfig": {
+    "extends": "./config/eslint.js"
   },
   "author": "Ben Zichettello",
   "license": "MIT",
   "dependencies": {
     "d3": "^4.2.2",
+    "extend": "^3.0.0",
     "lodash": "^4.15.0",
     "mithril": "^0.2.5"
   },
@@ -53,12 +65,14 @@
     "eslint": "^3.4.0",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-import": "^1.14.0",
+    "extend": "^3.0.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.3",
     "file-loader": "^0.9.0",
     "filesize": "^3.3.0",
     "fs": "0.0.2",
     "fs-extra": "^0.30.0",
     "git-branch-name": "^1.1.0",
+    "gzip-size": "^3.0.0",
     "html-webpack-plugin": "^2.22.0",
     "http": "0.0.0",
     "image-webpack-loader": "^2.0.0",
@@ -70,6 +84,7 @@
     "node-sass": "^3.8.0",
     "nodemon": "^1.10.0",
     "opn": "^4.0.2",
+    "parseurl": "^1.3.1",
     "path": "^0.12.7",
     "phantomjs2-ext": "^0.2.2",
     "postcss-loader": "^0.11.1",
@@ -79,6 +94,7 @@
     "readline": "^1.3.0",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
+    "serve-static": "^1.11.1",
     "sinon": "^1.17.5",
     "style-loader": "^0.13.1",
     "transform-loader": "^0.2.3",

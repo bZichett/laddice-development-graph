@@ -8,7 +8,8 @@ var execSync = require('child_process').execSync;
 var opn = require('opn');
 var detect = require('./utils/detectPort');
 var prompt = require('./utils/prompt');
-var config = require('../webpack/webpack.config.dev');
+var config = require('../webpack/webpack.config')({__DEV__: true, devServer: true});
+var devServerConfig = require('../webpack/webpack.config.dev.server');
 
 var DEFAULT_PORT = process.env.PORT || 3000;
 var compiler;
@@ -141,15 +142,8 @@ function openBrowser(port) {
 }
 
 function runDevServer(port) {
-  new WebpackDevServer(compiler, {
-    historyApiFallback: true,
-    hot: true, // Note: only CSS is currently hot reloaded
-    publicPath: config.output.publicPath,
-    quiet: true,
-    watchOptions: {
-      ignored: /node_modules/
-    }
-  }).listen(port, (err, result) => {
+  new WebpackDevServer(compiler, devServerConfig({publicPath: config.output.publicPath}))
+    .listen(port, (err, result) => {
     if (err) {
       return console.log(err);
     }
