@@ -36,23 +36,28 @@ export function getTreeFromStats(json, directory) {
 		var node = {
 			size: 25,
 			score: 1,
+			edges: [],
 			type: 'circle',
 			path: nodeName,
 			id: numNodes
 		}
 		nodes.push(node)
-		node.shortLabel = directory.set(nodeName, node)
+		var {last, splitPath} = directory.set(nodeName, node)
+		node.shortLabel = last
+		node.splitPath = splitPath
 
 	})
 
 	var addEdge = (name, edge, location) => {
-		var has = directory.get(name)
-		if(has){
-			edge[location] = has
-			return has
+		var node = directory.get(name)
+		if(node){
+			edge[location] = node
+			node.edges.push(edge)
+			return node
 		} else {
-			directory.set(name, numNodes++)
+			node = directory.set(name, numNodes++)
 			edge[location] = numNodes
+			node.edges.push(edge)
 		}
 	}
 
@@ -82,11 +87,8 @@ export function getTreeFromStats(json, directory) {
 		}
 	})
 
-
 	//console.log("Tree", tree)
-
 	return {
-		//nodes: uniq(tree.nodes),
 		nodes: nodes,
 		edges: edges,
 	};

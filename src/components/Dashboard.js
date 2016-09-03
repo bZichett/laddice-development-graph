@@ -32,8 +32,8 @@ export default class Dashboard extends Component {
 				</header>
 
 				<div class="Container">
-					<div class="Container-left"> { !this.loading ? this.graph.render() : ""}</div>
-					<div class="Container-right"> { !this.loading ? this.detail.render() : ""}</div>
+					<div class="Container-left"> { !this.loading ? this.WebpackGraph.render() : ""}</div>
+					<div class="Container-right"> { !this.loading ? this.DetailView.render() : ""}</div>
 				</div>
 
 			</div>
@@ -57,14 +57,14 @@ export default class Dashboard extends Component {
 
 			this.directory.setHierarchyObjects()
 
-			this.graph = new WebpackGraph({
+			this.WebpackGraph = new WebpackGraph({
 				focusNode: this.focusNode,
 				setFocusNode: this.setFocusNode.bind(this),
 				tree: this.tree
 			})
 
-			this.detail = new DetailView({
-				graph: this.graph,
+			this.DetailView = new DetailView({
+				WebpackGraph: this.WebpackGraph,
 				focusNode: this.focusNode,
 				setFocusNode: this.setFocusNode.bind(this)
 			})
@@ -78,12 +78,12 @@ export default class Dashboard extends Component {
 
 	deselectNode(){
 		this.focusNode = false
-		this.detail.show(false)
-		this.graph.drawing.deselect_item()
+		this.DetailView.show(false)
+		this.WebpackGraph.graph.layout.deselect_item()
 	}
 
 	setFocusNode(d){
 		this.focusNode = d
-		this.detail.show(d)
+		this.DetailView.show(d)
 	}
 }

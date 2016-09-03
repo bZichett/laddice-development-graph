@@ -1,6 +1,7 @@
 import Component from 'lib/Component'
 
-import { ForceDirectedGraph } from 'force-directed-graph-d3'
+//import { ForceDirectedGraph } from 'force-directed-graph-d3'
+import { ForceDirectedGraph } from 'views/index'
 
 export default class WebpackGraph extends Component {
 	init(){
@@ -29,19 +30,8 @@ export default class WebpackGraph extends Component {
 	}
 
 	view(){
-		const s = this.state
-
 		return (
-			<div>
-				{ !this.loading ? ForceDirectedGraph.component({
-					nodes: s.nodes,
-					context: this,
-					links: s.edges,
-					width: s.width,
-					height: s.height,
-					setFocusNode: this.props.setFocusNode
-				}) : "" }
-			</div>
+			<div>Loading</div>
 		)
 	}
 
@@ -65,10 +55,12 @@ export default class WebpackGraph extends Component {
 			started: true
 		});
 
-		setTimeout((() => {
-			this.loading = false
-			m.redraw()
-		}), 1000)
+		const s = this.state
+
+		this.graph = new ForceDirectedGraph(this.element,
+			{nodes: s.nodes, links: s.edges},
+			{setFocusNode: this.props.setFocusNode})
+
 	}
 
 	handleSelectFile(e){

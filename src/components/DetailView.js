@@ -1,18 +1,23 @@
 import Component from 'lib/Component'
 import { connectedSet } from 'utils/connectedSet'
+import './DetailView.css'
 
 export default class DetailView extends Component {
+
 	init(){
-		this.graph = this.props.graph
+		this.WebpackGraph = this.props.WebpackGraph
 	}
 
 	view(){
 		return (
-			<div>
+			<div style="width: 100%;">
 				{ this.focusNode ?
 					<div>
 
-						<div style="font-size: 130%;"> { this.focusNode.shortLabel } </div>
+						<div style="font-size: 130%;">
+							{ this.focusNode.shortLabel }
+							<span style="font-size: 80%; color: grey;"> { this.getShortPath(this.focusNode) } </span>
+						</div>
 
 						<p> Dependencies </p>
 
@@ -26,13 +31,13 @@ export default class DetailView extends Component {
 
 	renderLevel(rootNode){
 		return (
-			<ul>
+			<ul class="DetailView-descendants-list">
 				{ connectedSet(rootNode).map((node) => {
 					return (
 						<li>
 							{/* <span onclick={() => this.toggleConnectedVisibility(node)}>+</span> */}
 							<a onclick={() => this.show(node)}> { node.shortLabel } </a>
-							<span style="color: grey;"> { node.path } </span>
+							<span style="color: grey;"> { this.getShortPath(node) } </span>
 						</li>
 					)
 				})}
@@ -40,9 +45,13 @@ export default class DetailView extends Component {
 		)
 	}
 
+	getShortPath(node){
+		return node.splitPath.slice(3, node.splitPath.length).join('/')
+	}
+
 	show(node){
 		this.focusNode = node
-		this.graph.drawing.select_item(node, {fromOutside: true})
+		this.WebpackGraph.graph.layout.select_item(node, {fromOutside: true})
 		m.redraw()
 	}
 

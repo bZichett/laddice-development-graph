@@ -47,7 +47,7 @@ export default class Directory {
 		}
 
 		this.map.set(path, value)
-		return last
+		return {last, splitPath}
 	}
 
 	setHierarchyObjects(){
